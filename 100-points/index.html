@@ -11,7 +11,6 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" href="/apple-touch-icon.png">
 <link rel="manifest" href="/manifest.webmanifest">
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -196,13 +195,15 @@ header{background:light-dark(#dde1e7,#23262b);color:var(--ink);border-bottom:1px
   <p class="fine">Examples only. Based on 50 working weeks, about $2,000 earned per Life / CI / DI deal and about half of recruits getting licensed, with points earned across the full chart. Investment and travel income builds over time. Real results depend on each person's work, products and contracts.</p>
  </div></details>
 
- 
+ <details class="sec" id="secGoal"><summary><span>My 2027 Goal</span><small id="goalS"></small></summary><div class="sb" id="goalB"></div></details>
+
 </main>
 <footer><div class="wrap"><div class="acts" style="margin-top:20px">
   <button class="btn main" id="pdf">Save PDF For My ED</button>
   <button class="btn" id="copy">Copy Week Summary</button>
   <button class="btn" id="tgt">My Targets And Points</button>
   <button class="btn" id="clr">Clear This Week</button>
+  <button class="btn" id="prn" style="grid-column:1/-1">Print Month Or Last 12 Months</button>
  </div>
  <div class="note" id="note" role="status"></div>
 Team YIC · Youngest-In-Charge · Roaring Since 2019<br>Your numbers stay on this device only.</div></footer>
@@ -220,6 +221,14 @@ Team YIC · Youngest-In-Charge · Roaring Since 2019<br>Your numbers stay on thi
   <button class="fo" data-f="inc"><b>Six-Figure Income</b><span>I am committed to making six figures. Every call and every client meeting gets me closer, and 100 points a week gets me there.</span></button>
   <button class="fo" data-f="team"><b>Building My Dream Team</b><span>I am here to build my passive income and retire by 2030, within the next 5 years. Build the team, build the freedom.</span></button>
  </div>
+</dialog>
+<dialog id="dlgP">
+ <h3>Print For My ED</h3>
+ <p>Pick a month, or print the last 12 months in one PDF.</p>
+ <label for="pMon" style="display:block;font-size:13px;font-weight:600;margin:8px 0 4px">Month</label>
+ <input id="pMon" type="month" style="width:100%;height:46px;font-size:16px;border:1px solid var(--line);border-radius:10px;padding:0 10px;background:var(--card);color:var(--ink)">
+ <div class="acts"><button class="btn main" id="pM">Save Month PDF</button><button class="btn main" id="p12">Save Last 12 Months PDF</button></div>
+ <div class="acts" style="margin-top:8px"><button class="btn" id="pX" style="grid-column:1/-1">Close</button></div>
 </dialog>
 <dialog id="dlgC">
  <h3>Clear This Week?</h3>
@@ -332,7 +341,7 @@ function render(){
  $('paceS').textContent=foc()==='inc'?money(p*1000)+' / yr':p+' licensed / yr';
  $('ladS').textContent='100 pts = '+(foc()==='inc'?'$100K':'100 licensed');
  $('whyS').textContent='Deals · Recruits · Passive';
- drawLadder(p);draw();
+ drawLadder(p);draw();renderGoal();
 }
 
 $('rows').addEventListener('toggle',e=>{const d=e.target;if(!d.dataset||!d.dataset.g)return;d.open?openG.add(d.dataset.g):openG.delete(d.dataset.g)},true);
@@ -404,6 +413,76 @@ function makePdf(){
  return doc;
 }
 let dl=null;
+
+/* ---- Goal link ---- */
+const gStart=new Date(2027,0,1);
+const GK='teamYicGoal.v1';
+function readGoal(){try{const g=JSON.parse(localStorage.getItem(GK)||'null');return g&&+String(g.goal).replace(/[^0-9.]/g,'')?g:null}catch(e){return null}}
+function renderGoal(){
+ const g=readGoal(),b=$('goalB');
+ if(!g){$('goalS').textContent='Not Set Yet';b.innerHTML='<p class="lead">Build your 2027 goal in the Goal Builder. Your weekly targets will show up here and in your chart.</p><div class="acts"><a class="btn main" style="display:flex;align-items:center;justify-content:center;text-decoration:none" href="https://teamyic.github.io/goals/">Build My 2027 Goal</a></div>';return}
+ const n=+String(g.goal).replace(/[^0-9.]/g,''),team=g.focus==='team',need=team?n:n/1000;
+ const t0=monday(today);let tot=0,wks=0;
+ Object.keys(S.weeks).forEach(k=>{const d=new Date(k+'T00:00:00');if(d>=gStart||add(d,6)>=gStart){const w=S.weeks[k];if(!w)return;let p=0;A.forEach(a=>{if(Array.isArray(w[a.id]))p+=ap(a,w[a.id].reduce((s,v)=>s+v,0))});tot+=p}});
+ const el=Math.max(0,Math.floor((t0-monday(gStart))/6048e5)+(today>=gStart?1:0));
+ const want=need*el,pace=el?tot/el:0,unit=team?' licensed':'';
+ const out=n=>team?Math.round(n)+' licensed':money(n);
+ const before=today<gStart;
+ $('goalS').textContent=before?'Starts Jan 1, 2027':Math.round(tot)+' / '+Math.round(want)+' pts';
+ b.innerHTML=`<div class="lead"><b>${(g.name||'My')+(g.name?"'s":'')} Goal:</b> ${out(n)} by December 31, 2027${g.why?', so my family '+String(g.why).replace(/[&<>]/g,''):''}.</div>
+ <div class="cards"><div class="c"><div class="t">Weekly Points Needed</div><div class="v">${Math.round(need*10)/10}</div></div>
+ <div class="c"><div class="t">Points Since Jan 1</div><div class="v">${Math.round(tot)} <small>/ ${Math.round(want)}</small></div></div>
+ <div class="c"><div class="t">My Weekly Average</div><div class="v">${Math.round(pace*10)/10}</div></div>
+ <div class="c"><div class="t">Pace For The Year</div><div class="v">${out(pace*(team?1:1000))}</div></div></div>
+ <p class="fine">${before?'Your year starts January 1, 2027. Your weekly numbers count from that day.':(tot>=want?'You are on or ahead of your goal pace. Keep going.':'You are '+Math.round(want-tot)+' points behind your goal pace. One strong week closes the gap.')}</p>
+ <div class="acts"><a class="btn" style="grid-column:1/-1;display:flex;align-items:center;justify-content:center;text-decoration:none" href="https://teamyic.github.io/goals/">Open My Goal Builder</a></div>`;
+}
+/* ---- Month / 12 month PDF ---- */
+const AB={calls:'Calls',posts:'Posts',train:'Train',bmp:'Pres',meet:'Meet',recruit:'Recr',life:'Life',inv:'Inv',travel:'Trav'};
+const mkey=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
+function weekRec(k){const w=S.weeks[k],o={pts:0};A.forEach(a=>{const v=w&&Array.isArray(w[a.id])?w[a.id].reduce((s,x)=>s+x,0):0;o[a.id]=v;o.pts+=ap(a,v)});return o}
+function weeksOf(mk){return Object.keys(S.weeks).filter(k=>mkey(new Date(k+'T00:00:00'))===mk).sort()}
+function tblPdf(title,sub,first,rows,totalLbl){
+ const {jsPDF}=window.jspdf;const doc=new jsPDF({unit:'pt',format:'letter',orientation:'landscape'});
+ const PW=792,M=40;let y=40;
+ doc.setFillColor(221,225,231);doc.rect(0,0,PW,70,'F');
+ doc.setTextColor(18,18,18);doc.setFont('helvetica','bold');doc.setFontSize(20);doc.text('My Accountability Chart',M,34);
+ doc.setFont('helvetica','normal');doc.setFontSize(11);doc.text(title,M,54);
+ doc.setFontSize(11);doc.text(who()+(S.ed?' · Executive Director: '+S.ed:''),PW-M,34,{align:'right'});doc.text('Focus: '+FN[foc()],PW-M,54,{align:'right'});
+ y=100;const cols=A.map(a=>a.id),x0=M+150,dx=(PW-M-x0-70)/cols.length;
+ const head=()=>{doc.setFont('helvetica','bold');doc.setFontSize(9);doc.setTextColor(95,95,91);doc.text(first,M,y);cols.forEach((c,i)=>doc.text(AB[c],x0+i*dx+dx/2,y,{align:'center'}));doc.text('Points',PW-M,y,{align:'right'});y+=6;doc.setDrawColor(200,200,195);doc.line(M,y,PW-M,y);y+=14};
+ head();
+ const line=(r,bold)=>{if(y>560){doc.addPage();y=50;head()}doc.setFont('helvetica',bold?'bold':'normal');doc.setFontSize(10);doc.setTextColor(18,18,18);doc.text(r.l,M,y);cols.forEach((c,i)=>doc.text(String(r[c]),x0+i*dx+dx/2,y,{align:'center'}));doc.text(String(r.pts),PW-M,y,{align:'right'});y+=6;doc.setDrawColor(232,232,228);doc.line(M,y,PW-M,y);y+=14};
+ rows.forEach(r=>line(r,false));
+ const T={l:totalLbl,pts:0};cols.forEach(c=>T[c]=rows.reduce((s,r)=>s+r[c],0));T.pts=rows.reduce((s,r)=>s+r.pts,0);
+ y+=4;line(T,true);
+ y+=14;doc.setFont('helvetica','normal');doc.setFontSize(10);doc.setTextColor(18,18,18);doc.text(sub(T,rows),M,y);
+ doc.setFontSize(8);doc.setTextColor(120,120,115);doc.text('Calls = phone calls, Posts = social media posts, Train = trainings attended, Pres = business presentations, Meet = client meetings, Recr = recruits, Life = Life / CI / DI, Inv = investments, Trav = travel / referrals.',M,y+18);
+ doc.text('Weeks are counted in the month their Monday falls. Generated '+fmt(new Date(),{year:'numeric',month:'short',day:'numeric'})+' - Team YIC - Roaring Since 2019',M,y+30);
+ return doc;
+}
+function monthPdf(mk){
+ const [Y,M]=mk.split('-').map(Number),nm=new Date(Y,M-1,1).toLocaleDateString('en-CA',{month:'long',year:'numeric'});
+ const rows=weeksOf(mk).map(k=>Object.assign({l:'Week Of '+fmt(new Date(k+'T00:00:00'),{month:'short',day:'numeric'})},weekRec(k)));
+ if(!rows.length)return null;
+ return tblPdf(nm,(T,r)=>`${r.length} weeks tracked. Total ${T.pts} points, an average of ${Math.round(T.pts/r.length*10)/10} a week (pace: ${paceTxt(T.pts/r.length)} a year).`,'Week',rows,'Month Total');
+}
+function yearPdf(){
+ const ms=[];const d0=new Date(today.getFullYear(),today.getMonth(),1);for(let i=11;i>=0;i--)ms.push(mkey(new Date(d0.getFullYear(),d0.getMonth()-i,1)));
+ const rows=ms.map(mk=>{const ks=weeksOf(mk),o={l:new Date(+mk.slice(0,4),+mk.slice(5)-1,1).toLocaleDateString('en-CA',{month:'short',year:'numeric'}),pts:0};A.forEach(a=>o[a.id]=0);ks.forEach(k=>{const r=weekRec(k);A.forEach(a=>o[a.id]+=r[a.id]);o.pts+=r.pts});o.n=ks.length;return o});
+ return tblPdf('Last 12 Months · '+rows[0].l+' to '+rows[11].l,(T)=>{const wk=rows.reduce((s,r)=>s+r.n,0);return `${wk} weeks tracked. Total ${T.pts} points${wk?', an average of '+Math.round(T.pts/wk*10)/10+' a week':''}.`},'Month',rows,'12 Month Total');
+}
+$('prn').addEventListener('click',()=>{$('pMon').value=mkey(today);$('dlgP').showModal()});
+$('pX').addEventListener('click',()=>$('dlgP').close());
+async function savePdf(doc,name){
+ if(!doc){note('No weeks tracked in that month yet.');return}
+ name=name.replace(/[\\/:*?"<>|]/g,'');
+ if(!dl){try{doc.save(name);note('PDF saved. Send it to your ED.')}catch(e){note('PDF could not be saved here.')}return}
+ try{const r=await dl.save({filename:name,data:doc.output('blob')});note(r.status==='saved'?'PDF saved. Send it to your ED.':'PDF sent.')}catch(e){note('PDF could not be saved here.')}
+}
+$('pM').addEventListener('click',()=>{if(!window.jspdf){note('PDF tool is still loading. Try again in a moment.');return}const mk=$('pMon').value||mkey(today);$('dlgP').close();savePdf(monthPdf(mk),'My Accountability Chart - '+who()+' - '+mk+'.pdf')});
+$('p12').addEventListener('click',()=>{if(!window.jspdf){note('PDF tool is still loading. Try again in a moment.');return}$('dlgP').close();savePdf(yearPdf(),'My Accountability Chart - '+who()+' - Last 12 Months.pdf')});
+
 $('pdf').addEventListener('click',async()=>{
  if(!window.jspdf){note('PDF tool is still loading. Try again in a moment.');return}
  if(!dl){try{makePdf().save(('My Accountability Chart - '+who()+' - Week Of '+iso(wk)+'.pdf').replace(/[\\/:*?"<>|]/g,''));note('PDF saved. Send it to your ED.')}catch(e){note('PDF could not be saved here. Use Copy Week Summary instead.')}return}
