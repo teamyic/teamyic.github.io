@@ -237,9 +237,9 @@ const A=[
  {id:'bmp',n:'Business Presentations',t:5,p:2,g:'Building The Business'},
  {id:'meet',n:'Client Meetings',t:5,p:2,g:'Building The Business'},
  {id:'recruit',n:'New Recruits',t:4,p:5,g:'Building The Business'},
- {id:'life',n:'Closed Life / CI / DI',t:1,p:15,g:'Results'},
- {id:'inv',n:'Closed Investments',t:5,p:1,g:'Results'},
- {id:'travel',n:'Closed Travel / Referrals',t:5,p:1,g:'Results'}];
+ {id:'life',n:'Closed Life / CI / DI',t:1,p:15,g:'Closed Client Business'},
+ {id:'inv',n:'Closed Investments',t:5,p:1,g:'Closed Client Business'},
+ {id:'travel',n:'Closed Travel / Referrals',t:5,p:1,g:'Closed Client Business'}];
 const FT={inc:{calls:[50,1],posts:[5,1],train:[3,5],bmp:[0,2],meet:[10,2],recruit:[0,5],life:[1,30],inv:[5,2],travel:[5,2]},
  team:{calls:[50,1],posts:[5,1],train:[3,5],bmp:[10,2],meet:[5,2],recruit:[4,10],life:[0,15],inv:[0,1],travel:[0,1]}};
 const FN={inc:'Six-Figure Income',team:'Building My Dream Team'};
@@ -310,7 +310,7 @@ function render(){
  $('days').innerHTML=DN.map((d,i)=>{const dt=add(wk,i);return `<button class="day${i===day?' on':''}${iso(dt)===iso(today)?' today':''}" role="tab" aria-selected="${i===day}" data-d="${i}">${d}<span>${dt.getDate()}</span></button>`}).join('');
  $('rows').innerHTML=[...new Set(A.map(x=>x.g))].map(gn=>{
   const items=A.filter(x=>x.g===gn),gp=items.reduce((n,x)=>n+ap(x,sum(w,x.id)),0),gt=items.reduce((n,x)=>n+ap(x,tgt(x)),0);
-  return `<details class="sec" data-g="${gn}"${openG.has(gn)?' open':''}><summary><span>${gn}</span><small>${gp} / ${gt} pts</small></summary><div class="sb">`+items.map(a=>{const s=sum(w,a.id),t=tgt(a);
+  return `<details class="sec" data-g="${gn}"${openG.has(gn)?' open':''}><summary><span>${gn}</span><small>${gt?gp+' / '+gt+' pts':gp+' bonus pts'}</small></summary><div class="sb">`+items.map(a=>{const s=sum(w,a.id),t=tgt(a);
   return `<div class="row"><div><div class="nm">${a.n}</div><div class="wk${t&&s>=t?' hit':''}">${t?`Week ${s} / ${t} · `:`Week ${s} · `}${pe(a)}</div></div>
   <div class="ctl"><button class="minus" data-a="${a.id}" data-v="-1" aria-label="Remove one ${a.n}">−</button><span class="num" aria-label="${a.n} on ${DN[day]}">${w[a.id][day]}</span><button class="plus" data-a="${a.id}" data-v="1" aria-label="Add one ${a.n}">+</button></div></div>`}).join('')+`</div></details>`}).join('');
  const left=Math.max(g-p,0);
