@@ -6,7 +6,7 @@
 *{box-sizing:border-box}
 body{margin:0;font:16px/1.4 -apple-system,"Segoe UI",Roboto,sans-serif;background:#fff;color:#1b2430;-webkit-text-size-adjust:100%}
 .wrap{max-width:720px;margin:0 auto;padding:0 14px}
-h1{font-size:22px;margin:18px 0 2px}
+.hd{display:flex;align-items:center;gap:12px;margin:16px 0 4px}.hd img{width:56px;height:56px;flex:0 0 auto}h1{font-size:21px;margin:0;line-height:1.2}
 .sub{font-size:13.5px;color:#667;margin:0 0 10px}
 .bar{position:sticky;top:0;background:#fff;padding:8px 0 6px;z-index:5;border-bottom:1px solid #e6ebf1}
 input,select{width:100%;font-size:17px;padding:13px 14px;border:2px solid #cfd8e3;border-radius:12px;background:#fff;color:#1b2430;outline:none}
@@ -15,22 +15,22 @@ input:focus,select:focus{border-color:#1d5a96}
 .two select{font-size:15px;padding:11px 10px;border-width:1px}
 .note{font-size:13.5px;color:#41536a;margin:10px 0 4px}
 .count{font-size:13px;color:#778;margin:4px 0}
-.r{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid #edf0f4}
+.r{padding:12px 0;border-bottom:1px solid #edf0f4}.h{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px;font-size:13px;color:#5c6878}.h b{font-size:15px;color:#1b2430}.h .d{color:#1d5a96;font-weight:600}.ct{display:flex;flex-wrap:wrap;gap:2px 14px;margin-top:3px}.disc{font-size:12.5px;color:#556;background:#f4f7fb;border-radius:10px;padding:9px 11px;margin:8px 0 0}
 .l{min-width:0}
 .co{font-size:12.5px;font-weight:700;letter-spacing:.2px}
 .co i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px}
 .nm{font-weight:700;font-size:16.5px}
 .ti{font-size:13.5px;color:#5c6878}
-.em{font-size:13.5px;color:#1d5a96;word-break:break-all;text-decoration:none;display:block}
+.em{font-size:14px;color:#1d5a96;word-break:break-all;text-decoration:none}
 .nt{font-size:12.5px;color:#a06a00}
-.ph{flex:0 0 auto;align-self:center;font-weight:700;font-size:16px;color:#0f7b4a;text-decoration:none;text-align:right;max-width:150px}
+.ph{font-weight:700;font-size:14.5px;color:#0f7b4a;text-decoration:none}
 .ph.no{color:#a06a00;font-weight:400;font-size:13px}
 .tag{font-size:11.5px;color:#667;background:#eef2f7;border-radius:6px;padding:1px 6px;margin-left:4px;white-space:nowrap}
 footer{font-size:12.5px;color:#778;padding:16px 0 40px}
 mark{background:#fff2a8;border-radius:3px}
 </style></head><body><div class="wrap">
-<h1>Team YIC Carrier Rep Directory</h1>
-<p class="sub">Last updated Nov 24, 2026</p>
+<div class="hd"><img alt="Team YIC" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFQAAABUBAMAAADuRQ3yAAAAGFBMVEX////9/f3y8vKwsLBeXl4rKysMDAwAAACBnE3lAAAHB0lEQVR42p2X23McRxXGvzNrYimVnT49a4htbM1lUwUmKWkvClXAg/GFJ175Ayj+P+CJPNmykzwAZe3NFIVTZGdmJSp2sHe6ezexRrY1hwdZ9q60kCr6aar2V99+fc7pc7qB04tIg0jjOxcxA3T89T85IoC8BEFAALAsfW5RUCzPN2sSkUedPoV9w4B983vtLcr2RdD1fuR9Qw7C5bsXGxez8pDLM6oarpkYneW2GAIYcyC8UXuKiTanUG2ow+rZl2OAEg0pcjOOi0YVIyd5bfBEtRl6RZEjiEmzhhFjiwxenKThzrKqjmvUL7xmTDEAA9KJNYkpxnkS1Op2ASWvff+p7QaaYcRYA9KstRbTmI43ui8zu6Aq2bh5K4akRtLX4Um0DoKgCO5uL3tl103YFCa1J1kSCzR1rCXt6WwBJfm4LanpH3MG2mghiEWQJDz9PS8Y4Ea7SPvQEMsGTdVncxzrojBJfHOwkK21K+98OdDrpizZJrVfH3zw4U8OUKIs9fpXEx3/eTFY/GykDQCa/UrNVK0tvWNdAy33fnvMeCc1pazWDG56ETINIHsdeOOYl1ARKGOcNlF1f3Po9/rbt9xJHo2VBQMWllwX0zzxPvx7dqOP6fB3oRN7vHVi2JNtEXWn7iNeayRaXlybfXsh9N7/4seDQ20BELW/Kss3BggAE5lalfUH0bmo1tn2Z7e3TGflKRD4WU4tJ3fMTUx30Yjrf/igNZAVaA3jYVP242yjF7S8W6ZXcDf5YoE8iQDgrMeZrqa9CQs27uzcEgqsYwDieLEIlUXHD6YmyrURW02a009vw6oMq1Rlek8ag+nAwA6Qebon092dxK1ETVDgptMaKnLV1IXUuOnPQ16Bwvoe09CGerblLrTTCarZx9KhFagieLF33dd2u3i1ucNdyJ2dG4FdZaDaj7xWIl4U7UyHwwubvbl/dL/R4hUG+r0YCKzTV5sPJ79pE++2L9TvhbQC1e9NAC8yQINUBH/SGg226+fsqm3NZQjinIQiVR3tPfjX0dNRZ7LFZ1HVpqOqzyoHa0h+r3Un6d7xrnfsGZTmzH5aQRyQAJPp7PrwwvX782CFgbjGTTeJpZsqcqMiNN+P8+1XU3catRAKMzH7NG/tb1gyV2tmsL1BN/JRuFyEQmwpnVfwkfgzsSiuHGx8jg5qLC/35LTXsbASZYIqEIF46PoWQAtDOj5hC9nyEY0BRHkrD5ER1zYtxO4H0bJXAWhG9c8KJnbslOo4P+/Yo8n4WaKWUBHLIDdKGuRUTWpQTJyRRW+L/4iTKXOsygTAm7YomCBC20jb844INf+zvTpInF3sLpCIOw71CTHBOTBf3WNL9WpzdDqu2oK1iap2hrF1M4oQTCJW3WIGPhUsAphU1oetJr54tSOrLcN/2Hail1WNpglTy+yxe5BgI0JhAYCRvJ20b2tAqvzc7Vth9XnojTbQt2CADAEwi6jLCDAGusNFk4p5VQ0tOIOuHobgQi31V4okk2f91I7jozRG2gGxgWHIm3vBm20psTKQPPeiMSIz/CU8Fgjb1DuZ8yeqltXAdxUZUiPHUiMQW0yUTKCWUPFtYH3iCtY7Ioe8DQYsZn49D2SyXFlGA3uakMWyFdh5BEblwRuMVSzLXl1GIMuEq5THrBrWRqjiyssn4FQtb8t4W0hjIs2ONtxmPgPyllyd8JzNsqr4uZb6Q7IhyPNzsQlkDuezJeVOBUts4ihLqiaY5HhQxQj6ojpVvhwsuNSLkGqfoGGtsM1I8GrkvCg9nQIYF8LPW/scAEghueS4qzBjI6cN1POmrfLAtlIAOeo0pVcjqzrVyJ5pRKkX0u6shQKo9qJeONy6q2gWFWfbmy1cx9b7wNUhKlf/26u93ZHlRKVytmv7ecDUG0qjr8dJz+zUdxQhefv/C6Xtel7L+nccTUf66J7vUm15HvXUquujNOLi8J2v3/1muPaYnVo3VN72PynPotQM/9qRR4dFyQeWSpQl+Er7n/tbZXl6HLOX5HkzdRiDIACg3U+rT7ev5GdUD+3FR3mH+2vra8cydLB97UHpPbflGQN8uHHwIlGPztvXJ+jKz6f33/vBoFwx4ryG18ubW8cjndS8Iz1lI71iFrgChZ/SdugYIDW7yeO92mZfVgXrgDpPnr+4rJ9/rdfPz7rXpp/IR+FfylUozTq9w8eU6OdPyhfddtHDD8tvy5UolGuEj5/oy3rtxS+uFbv54fbL4VtyCT0suu8fmFxfvnT5UrE78Xjd4L+g0I/WL6nHOS6vTXs5bn8vfbJALqOl/DtoG/UPHPzJNX7mHbi1cvXDBADVB8G50NlBM55QzwhW3oiO8+Dqu1bbbkfrqijU8mOodupxdHjwvASZ81mRa/sdDy79pibOPLFWwEa/7er/3/oPsZaOj3N/BksAAAAASUVORK5CYII="><div><h1>Team YIC Carrier Rep Directory</h1><p class="sub" style="margin:2px 0 0">Last updated Nov 24, 2026</p></div></div>
+<p class="disc">This is not a list created by Team YIC. Names and contact details come from each carrier's own website and emails. Please confirm with the carrier if anything looks out of date.</p>
 <div class="bar"><input id="q" type="search" placeholder="Search carrier, name, product or province" autocomplete="off">
 <div class="two"><select id="p"></select><select id="c"></select></div></div>
 <p class="note">If the rep listed here is different from the one you spoke with, let us know and we will update our records. Let us know if you have any further questions.</p>
@@ -60,11 +60,11 @@ function render(){
  const pr=d=>p!=="ALL"?(d.prov.includes(p)?0:1):Math.min(...d.prov.map(x=>PR[x]??9));
  rows.sort((a,b)=>pr(a)-pr(b)||a.carrier.localeCompare(b.carrier)||a.line.localeCompare(b.line)||order(a)-order(b));
  cnt.textContent=rows.length+" contacts";
- out.innerHTML=rows.map(d=>{const b=BR[d.carrier]||["#445",d.carrier];const tel=d.phone.replace(/ ext.*$/i,"").replace(/[^0-9+]/g,"");
+ out.innerHTML=rows.map(d=>{const tel=d.phone.replace(/ ext.*$/i,"").replace(/[^0-9+]/g,"");
   const pv=d.prov.map(x=>x==="NAT"?"All Canada":x==="ATL"?"Atlantic":x).join(", ");
-  return `<div class="r"><div class="l"><div class="co" style="color:${b[0]}"><i style="background:${b[0]}"></i>${hl(d.carrier,ws)}</div><div style="margin:2px 0 3px"><span class="tag" style="margin-left:0">${esc(d.line)}</span><span class="tag">${esc(pv)}</span>${d.role!=="First contact"?'<span class="tag">'+esc(d.role)+'</span>':""}</div>
+  return `<div class="r"><div class="h"><b>${hl(d.carrier,ws)}</b><span class="d">${esc(d.line)}</span><span>${esc(pv)}</span>${d.role!=="First contact"?'<span class="tag">'+esc(d.role)+'</span>':""}</div>
   <div class="nm">${hl(d.name,ws)}</div><div class="ti">${hl(d.title,ws)}</div>
-  ${d.email?`<a class="em" href="mailto:${esc(d.email)}">${hl(d.email,ws)}</a>`:""}${d.note?`<div class="nt">${esc(d.note)}</div>`:""}${d.book?`<a class="em" href="${esc(d.book)}" target="_blank" rel="noopener">Book a meeting</a>`:""}</div>
-  ${d.phone?`<a class="ph" href="tel:${esc(tel)}">${hl(d.phone,ws)}</a>`:'<span class="ph no">No phone yet</span>'}</div>`}).join("")||"<p>No match. Try fewer words or another province.</p>"}
+  <div class="ct">${d.phone?`<a class="ph" href="tel:${esc(tel)}">${hl(d.phone,ws)}</a>`:""}${d.email?`<a class="em" href="mailto:${esc(d.email)}">${hl(d.email,ws)}</a>`:""}${d.book?`<a class="em" href="${esc(d.book)}" target="_blank" rel="noopener">Book a meeting</a>`:""}</div>
+  ${d.note?`<div class="nt">${esc(d.note)}</div>`:""}</div>`}).join("")||"<p>No match. Try fewer words or another province.</p>"}
 q.oninput=render;ps.onchange=render;cs.onchange=render;render();
 </script></body></html>
